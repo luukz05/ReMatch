@@ -8,8 +8,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-repeat: no-repeat;
-  height:100vh;
-  width:221vh;
+  height:100%;
+  width:100%;
   background-size: cover;
   background-image: url("https://i.pinimg.com/originals/b2/65/75/b26575672c7512d8b33885e997a644e2.jpg");
   font-family: 'Arial', sans-serif;
