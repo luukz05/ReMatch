@@ -7,11 +7,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-repeat: no-repeat;
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  background-size: cover;
   background-image: url("https://i.pinimg.com/originals/b2/65/75/b26575672c7512d8b33885e997a644e2.jpg");
+  background-size: cover;
   font-family: 'Arial', sans-serif;
   color: #2e8b57;
   position: absolute;
@@ -27,9 +26,8 @@ const Card = styled.div`
   width: 400px;
   text-align: center;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
 `;
 
 const Title = styled.h1`
@@ -85,7 +83,7 @@ const Onboarding = () => {
         interesse: companyName, // Ou adapte para interesse real
         descricao: description,
       });
-      
+
       alert('Cadastro realizado com sucesso!');
       navigate('/');  // Redireciona após o cadastro
     } catch (error) {
