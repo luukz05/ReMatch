@@ -1,20 +1,18 @@
-import HomePage from "./pages/Login"
-import Dashboard from "./pages/Home"
-import Onboarding from "./pages/Register"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
+// import Registro from "./pages/Register";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const App = () =>{
-  return(
+const App = () => {
+  return (
     <BrowserRouter>
-    <Routes>
-        <Route path="/home" element={<Dashboard/>}/>
-        <Route path="/" element={<HomePage/>}/> 
-        <Route path="/cadastro" element={<Onboarding/>}/>
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-</BrowserRouter>
-  )       
-
-}
-
-export default App
+export default App;
