@@ -1,6 +1,6 @@
 import Nav from "../components/Nav";
 import AuthModal from "../components/AuthModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 const Home = () => {

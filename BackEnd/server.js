@@ -37,6 +37,7 @@ const UserSchema = new mongoose.Schema(
     estado: { type: String }, // Campo para estado
     cidade: { type: String }, // Campo para cidade
     matches: { type: Array, default: [] },
+    action: { type: String, default: "" }, // Agora é uma string em vez de um array
   },
   { collection: "users" }
 );
@@ -67,6 +68,7 @@ app.post("/register", async (req, res) => {
     estado,
     cidade,
     matches,
+    action,
   } = req.body;
 
   const existingUser = await User.findOne({ email });
@@ -87,6 +89,7 @@ app.post("/register", async (req, res) => {
       estado, // Adicionar estado
       cidade, // Adicionar cidade
       matches,
+      action,
     });
 
     await newUser.save();

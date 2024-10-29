@@ -4,6 +4,8 @@ html, body {
     margin: 0;
     padding: 0;
     text-align: center;
+    overflow:hidden ;
+    user-select: none;
 }
 
 h2 {
@@ -143,123 +145,46 @@ nav .logo-container .logo {
     font-size: 17px;
 }
 
-/*-------- OnBoarding Page --------*/
-.onboarding {
-    border-top: solid 1px rgb(213, 213, 213);
-}
-
-.onboarding form {
-    display: flex;
-    justify-content: center;
-}
-
-.onboarding form section {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    width: 35%;
-    text-align: start;
-}
-
-.onboarding form input {
-    padding: 15px 30px;
-    margin: 10px 0;
-    font-size: 15px;
-    border: solid 2px rgb(219, 219, 219);
-    border-radius: 10px;
-}
-
-.onboarding form label {
-    margin: 10px 0;
-}
-
-.onboarding form .multiple-input-container {
-    display: flex;
-    flex-direction: row;
-}
-
-.onboarding form input::-webkit-outer-spin-button,
-.onboarding form input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.onboarding form .multiple-input-container input {
-    margin-right: 10px;
-}
-
-.onboarding form .multiple-input-container label {
-    padding: 10px;
-    border: solid 2px rgb(144, 144, 144);
-    border-radius: 10px;
-    transition: all 0.3s;
-    margin-right: 10px;
-}
-
-.onboarding form input[type=radio] {
-    display: none;
-}
-
-.onboarding form input[type=number] {
-    width: 10%;
-}
-
-.onboarding form input[type=radio]:checked + label {
-    border: solid 2px rgb(221, 39, 22);
-}
-
-.onboarding form input[type=submit]:hover {
-    background-color: rgb(235, 235, 235);
-}
-
-.onboarding form input[type=submit]:active {
-    background-color: rgb(226, 115, 115);
-}
-
-.onboarding form .photo-container img {
-    width: 100%
-}
-
 /*-------- Dashboard  --------*/
 .dashboard {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-image: url('https://preview.redd.it/bxnemloow4781.jpg?auto=webp&s=4d8daf38d1d7caf73c96008d067b23f7fa3f74d7');
 }
 
 .dashboard .swipe-container {
-    width: 70%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
+.card{
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    width: 600px;
+    height: fit-content;
+    text-wrap: wrap;
+    border-radius: 10px;
+}
+.card:hover{
+    cursor: pointer;
+}
 
 .swipe {
     position: absolute;
-}
-
-.dashboard .card-container {
-    width: 400px;
-    height: 650px;
-}
-
-.card {
-    width: 400px;
-    height: 650px;
-    border-radius: 30px;
-    background-size: cover;
-    background-position: center;
-}
-
-.card h3 {
-    margin-top: 0;
-}
-
-.dashboard .swipe-info {
-    position: absolute;
-    bottom: 0;
-    padding: 10px;
+    justify-content:    center ;
+    display:flex ;
+    align-items: center;
+    align-self: center;
 }
 
 /*-------- Chat Container --------*/

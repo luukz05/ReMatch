@@ -1,24 +1,26 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Cookies } from "react-cookie";
+import { useCookies } from "react-cookie"; // Importa o hook para gerenciar cookies
 
 const AuthModal = ({ setShowModal, isSignUp }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState(""); // Para nome completo ou razão social
-  const [accountType, setAccountType] = useState("PF"); // PF ou PJ
-  const [companyName, setCompanyName] = useState(""); // Nome fantasia
-  const [cnpj, setCnpj] = useState(""); // CNPJ
-  const [description, setDescription] = useState(""); // Área de atuação
-  const [companyInterest, setCompanyInterest] = useState(""); // Interesse em resíduos
-  const [state, setState] = useState(""); // Estado
-  const [city, setCity] = useState(""); // Cidade
+  const [name, setName] = useState("");
+  const [accountType, setAccountType] = useState("PF");
+  const [companyName, setCompanyName] = useState("");
+  const [cnpj, setCnpj] = useState("");
+  const [description, setDescription] = useState("");
+  const [companyInterest, setCompanyInterest] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
   const [matches, setMatches] = useState([]);
+  const [action, setAction] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   let navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["userId"]); // Declara o hook para definir e remover cookies
 
   const handleClick = () => {
     setShowModal(false);
@@ -42,20 +44,20 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           senha: password,
           area: accountType,
           descricao: description,
-          cnpj: accountType === "PJ" ? cnpj : undefined, // Envia CNPJ se for PJ
+          cnpj: accountType === "PJ" ? cnpj : undefined,
           interesse: companyInterest,
-          estado: state, // Enviar estado
-          cidade: city, // Enviar cidade
+          estado: state,
+          cidade: city,
           matches,
+          action: action,
         }
       );
 
       if (response.status === 201 || response.status === 200) {
-        // Salva o token no localStorage
+        // Define o cookie userId para armazenar o ID do usuário
+        setCookie("userId", response.data.userId, { path: "/", maxAge: 3600 }); // Expira em 1 hora (3600 segundos)
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.userId);
-        // Redirecionar após o login bem-sucedido
-        navigate("/dashboard");
+        navigate("/1");
         window.location.reload();
       } else {
         setErrorMessage(response.data.error || "Erro ao fazer login.");
@@ -141,25 +143,46 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
               placeholder="Descrição"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              maxLength={150}
             />
+            <div>
+              <input
+                onChange={(e) => setAction(e.target.value)}
+                type="radio"
+                id="option1"
+                name="options"
+                value="dar"
+              />
+              <label for="option1">Dar Materiais</label>
+
+              <input
+                onChange={(e) => setAction(e.target.value)}
+                type="radio"
+                id="option2"
+                name="options"
+                value="receber"
+              />
+              <label for="option2">Receber Materiais</label>
+            </div>
+
             <select
               value={companyInterest}
               onChange={(e) => setCompanyInterest(e.target.value)}
             >
               <option value="">Selecione um resíduo de interesse</option>
-              <option value="Eletro">Eletrônico</option>
-              <option value="Papel">Papel ou Papelão</option>
-              <option value="Plastico">Plástico</option>
-              <option value="Vidro">Vidro ou Cerâmica</option>
-              <option value="Metais">Metais (Cobre, Ferro e afins)</option>
-              <option value="Oleo">Óleo de cozinha</option>
-              <option value="Tecidos">Tecidos e roupas</option>
+              <option value="Eletrônico">Eletrônico</option>
+              <option value="Papel ou Papelão">Papel ou Papelão</option>
+              <option value="Plástico">Plástico</option>
+              <option value="Vidro ou Cerâmica">Vidro ou Cerâmica</option>
+              <option value="Metais (Cobre, Ferro e afins)">
+                Metais (Cobre, Ferro e afins)
+              </option>
+              <option value="Óleo de cozinha">Óleo de cozinha</option>
+              <option value="Tecidos e roupas">Tecidos e roupas</option>
               <option value="Madeira">Madeira</option>
-              <option value="PouB">Pilhas ou Baterias</option>
-              <option value="Organicos">Orgânicos</option>
+              <option value="Pilhas ou Baterias">Pilhas ou Baterias</option>
+              <option value="Orgânicos">Orgânicos</option>
             </select>
-
-            {/* Campos para Estado e Cidade */}
             <input
               type="text"
               placeholder="Estado"
