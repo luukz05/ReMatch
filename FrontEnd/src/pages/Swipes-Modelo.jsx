@@ -14,7 +14,7 @@ const UsersDashboard = () => {
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         const filteredUsers = data.filter(
-          (user) => user._id !== cookies.userId
+          (user) => user._id !== cookies.userId,
         );
         setUsers(filteredUsers);
       } catch (error) {

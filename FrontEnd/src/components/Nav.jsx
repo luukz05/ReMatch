@@ -1,11 +1,6 @@
 import Logo from "../images/logo.png";
 
-const Nav = ({ authToken, minimal, setShowModal, showModal, setIsSignUp }) => {
-  const handleClick = () => {
-    setShowModal(true);
-    setIsSignUp(false);
-  };
-
+const Nav = ({ authToken, minimal, handleShowLoginModal, handleLogout }) => {
   return (
     <nav>
       <div className="logo-container">
@@ -14,13 +9,18 @@ const Nav = ({ authToken, minimal, setShowModal, showModal, setIsSignUp }) => {
       {!authToken && !minimal && (
         <button
           className="nav-button"
-          onClick={handleClick}
-          disabled={showModal}
+          onClick={handleShowLoginModal} // Chama a função para abrir o LoginModal
         >
           Log in
+        </button>
+      )}
+      {authToken && (
+        <button className="nav-button" onClick={handleLogout}>
+          Sign out
         </button>
       )}
     </nav>
   );
 };
+
 export default Nav;

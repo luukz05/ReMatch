@@ -27,7 +27,7 @@ const MatchesDisplay = ({ matches = [], setClickedUser }) => {
 
   // Filtra os perfis correspondentes
   const filteredMatchedProfiles = matchedProfiles.filter((matchedProfile) =>
-    matchedProfile.matches.includes(userId)
+    matchedProfile.matches.includes(userId),
   );
 
   return (

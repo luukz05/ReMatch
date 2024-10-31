@@ -1,5 +1,5 @@
 import Chat from "./Chat";
-import ChatInput from "./ChatInput";
+import ChatInput from "./ChatInput.";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -57,7 +57,7 @@ const ChatDisplay = ({ user, clickedUser }) => {
   });
 
   const descendingOrderMessages = messages?.sort((a, b) =>
-    a.timestamp.localeCompare(b.timestamp)
+    a.timestamp.localeCompare(b.timestamp),
   );
 
   return (
