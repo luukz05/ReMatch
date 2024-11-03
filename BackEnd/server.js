@@ -68,6 +68,16 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (error) {
+    console.error("Erro ao buscar usuários com ação 'Dar':", error);
+    res.status(500).json({ error: "Erro ao buscar usuários." });
+  }
+});
+
 // Rota para registrar usuário
 app.post("/register", async (req, res) => {
   console.log(req.body); // Adicione esta linha para depuração

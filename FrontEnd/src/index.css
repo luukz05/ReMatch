@@ -89,9 +89,10 @@ nav .nav-button:disabled {
 }
 
 nav .logo-container {
-  width: 80px;
+  width: 350px;
   height: 100%;
-  margin-left: 5px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 nav .logo-container .logo {
@@ -110,7 +111,7 @@ nav .logo-container .logo {
 }
 
 .home {
-  margin-top: 30vh;
+  margin-top: 28vh;
 }
 
 /*-------- Auth Modal --------*/
@@ -127,8 +128,27 @@ nav .logo-container .logo {
   border-radius: 10px;
   padding: 40px;
 }
+.login-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 360px;
+  height: fit-content;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 40px;
+}
+.login-modal input,
+.auth-modal select {
+  padding: 8px;
+  margin: 8px;
+  font-size: 17px;
+}
 
-.auth-modal .close-icon {
+.close-icon {
   float: right;
 }
 
@@ -150,7 +170,10 @@ nav .logo-container .logo {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url("https://preview.redd.it/bxnemloow4781.jpg?auto=webp&s=4d8daf38d1d7caf73c96008d067b23f7fa3f74d7");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://cdn.discordapp.com/attachments/968229431988604940/1302369044556681297/Leonardo_Phoenix_updatedpromptImage_is_a_digital_illustration_2.jpg?ex=6727dd31&is=67268bb1&hm=2e38edb534a2280b9b1a68c4d590eb10ca3902d8c204b22a7ad144386cf6c5ef&");
 }
 
 .dashboard .swipe-container {
@@ -162,7 +185,7 @@ nav .logo-container .logo {
   height: 100vh;
 }
 .card {
-  background-color: #eee;
+  background-color: #61806f;
   display: flex;
   align-items: center;
   position: absolute;
@@ -257,11 +280,13 @@ nav .logo-container .logo {
 .nav-menu {
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   height: 52.73px;
   padding: 15px;
   background-color: #0b9b3b;
   color: #eee;
+  width: 100%;
 }
 .nav-menu img {
   height: auto;
@@ -285,4 +310,49 @@ nav .logo-container .logo {
 .info-menu {
   margin-top: -20px;
   font-size: 12px;
+}
+/* Profile */
+
+.div-buttons-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.btn-opcao-profile {
+  padding: 15px;
+  margin: 8px;
+  font-size: 17px;
+  width: 200px;
+  border-radius: 22px;
+  transition: 1s;
+  background-color: #eee;
+}
+.btn-opcao-profile:hover {
+  background-color: #0b9b3b;
+  transition: 1s;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.container-profile {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../src/public/OIG4.jpg");
+  background-position: center;
+}
+.divo {
+  font-display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #61806f93;
+  position: absolute;
+  left: 34%;
+  top: 23.5%;
+  padding: 100px;
+  border-radius: 25px;
+  backdrop-filter: blur(5px);
 }

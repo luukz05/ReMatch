@@ -1,6 +1,6 @@
 import Dashboard from "./pages/Swipes-Modelo";
 import Home from "./pages/Home";
-import PH1 from "./pages/ph1";
+import PH1 from "./pages/Profile";
 import Dar from "./pages/Dar";
 import Receber from "./pages/Receber";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

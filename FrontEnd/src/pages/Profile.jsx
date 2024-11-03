@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Logo from "../public/logo.png";
 
 const PH1 = () => {
   const { id } = useParams(); // Obtém o ID da URL
@@ -71,9 +72,9 @@ const PH1 = () => {
   }
 
   return (
-    <>
+    <div className="container-profile">
       <div className="nav-menu">
-        <img src="../logo.png" alt="Logo" />
+        <img src={Logo} alt="Logo" />
         <div className="perfil">
           <div className="div-name">
             <div className="name-container">
@@ -93,20 +94,27 @@ const PH1 = () => {
         </div>
       </div>
 
-      <div>
-        <h1>Página de Placeholder 1 (PH1)</h1>
-        <p>
-          Esta é a primeira página de placeholder. Aqui você pode adicionar
-          informações fictícias.
-        </p>
-        <button value="Dar" onClick={() => teste("Dar")}>
-          Dar
-        </button>
-        <button value="Receber" onClick={() => teste("Receber")}>
-          Receber
-        </button>
+      <div className="divo">
+        <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>
+        <p style={{ fontSize: "30px" }}>O que está procurando hoje?</p>
+        <div className="div-buttons-profile">
+          <button
+            className="btn-opcao-profile"
+            value="Dar"
+            onClick={() => teste("Dar")}
+          >
+            Dar algo
+          </button>
+          <button
+            className="btn-opcao-profile"
+            value="Receber"
+            onClick={() => teste("Receber")}
+          >
+            Receber algo
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

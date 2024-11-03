@@ -1,4 +1,4 @@
-import Logo from "../images/logo.png";
+import Logo from "../public/logo.png";
 
 const Nav = ({ authToken, minimal, handleShowLoginModal, handleLogout }) => {
   return (

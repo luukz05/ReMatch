@@ -10,6 +10,10 @@ const LoginModal = ({ setShowModal }) => {
   const [cookies, setCookie] = useCookies(["userId"]); // Hook para gerenciar cookies
   let navigate = useNavigate();
 
+  const handleClick = () => {
+    setShowModal(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
@@ -38,7 +42,10 @@ const LoginModal = ({ setShowModal }) => {
   };
 
   return (
-    <div className="auth-modal">
+    <div className="login-modal">
+      <div className="close-icon" onClick={handleClick}>
+        X
+      </div>
       <h2>Entrar</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -55,7 +62,9 @@ const LoginModal = ({ setShowModal }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Entrar</button>
+        <button type="submit" className="secondary-button">
+          Entrar
+        </button>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>
     </div>
