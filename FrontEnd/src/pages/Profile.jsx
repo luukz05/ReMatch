@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import Logo from "../public/logo.png";
+import Logo from "../assets/logo.png";
 
 const PH1 = () => {
   const { id } = useParams(); // Obtém o ID da URL

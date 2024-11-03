@@ -175,7 +175,12 @@ nav .logo-container .logo {
   background-size: cover;
   background-image: url("https://cdn.discordapp.com/attachments/968229431988604940/1302369044556681297/Leonardo_Phoenix_updatedpromptImage_is_a_digital_illustration_2.jpg?ex=6727dd31&is=67268bb1&hm=2e38edb534a2280b9b1a68c4d590eb10ca3902d8c204b22a7ad144386cf6c5ef&");
 }
-
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
 .dashboard .swipe-container {
   width: 50%;
   display: flex;
@@ -195,7 +200,9 @@ nav .logo-container .logo {
   width: 600px;
   height: fit-content;
   text-wrap: wrap;
+  word-break: break-all;
   border-radius: 10px;
+  z-index: 10;
 }
 .card:hover {
   cursor: pointer;
@@ -207,6 +214,21 @@ nav .logo-container .logo {
   display: flex;
   align-items: center;
   align-self: center;
+}
+
+.ohno-container {
+  display: flex;
+  text-align: center;
+  background-color: #61806fd2;
+  padding: 50px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-size: larger;
+  color: #eee;
+  backdrop-filter: blur(5px);
+  z-index: -1; /* Coloque atrás dos outros elementos */
 }
 
 /*-------- Chat Container --------*/
@@ -303,6 +325,7 @@ nav .logo-container .logo {
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+  margin-right: 23px;
 }
 .div-name {
   margin-bottom: 12px;
@@ -329,7 +352,7 @@ nav .logo-container .logo {
   background-color: #eee;
 }
 .btn-opcao-profile:hover {
-  background-color: #0b9b3b;
+  background-color: #43885a;
   transition: 1s;
   cursor: pointer;
   transform: scale(1.1);
@@ -340,7 +363,7 @@ nav .logo-container .logo {
   position: fixed;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url("../src/public/OIG4.jpg");
+  background-image: url("../src/assets/OIG4.jpg");
   background-position: center;
 }
 .divo {

@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import TinderCard from "react-tinder-card";
 import { useCookies } from "react-cookie";
-import Logo from "../public/logo.png";
+import Logo from "../assets/logo.png";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Dar = () => {
+const Receber = () => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(null); // Define the current user
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para mensagem de erro
   const [cookies] = useCookies(["userId"]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -58,15 +61,44 @@ const Dar = () => {
     return <div>{error}</div>;
   }
 
+  const backHome = async () => {
+    setLoading(true);
+    setErrorMessage(""); // Limpa a mensagem de erro
+    try {
+      // Faz a requisição para a rota /users/:id
+      const response = await fetch(
+        `http://localhost:5000/users/${cookies.userId}`,
+        {
+          method: "GET",
+          credentials: "include", // Inclui cookies na requisição
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) throw new Error("Network response was not ok");
+      const userData = await response.json();
+
+      if (!userData) {
+        setErrorMessage("Usuário não encontrado."); // Mensagem de erro caso o usuário não seja encontrado
+      } else {
+        setUser(userData); // Define o usuário encontrado
+        navigate(`/users/${cookies.userId}`);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user:", error);
+      setErrorMessage(
+        "Erro ao carregar o usuário. Tente novamente mais tarde.",
+      ); // Mensagem de erro
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="dashboard">
-      <div
-        className="container-profile"
-        style={{
-          backgroundImage:
-            "https://cdn.discordapp.com/attachments/968229431988604940/1302372600965763153/image.psd.png?ex=6727e080&is=67268f00&hm=1f5c1f0f2364e5bbb470736f98daab687154f34ba46bd2ada2af47d8566fa059&",
-        }}
-      >
+      <div className="container-profile">
         <div className="nav-menu">
           <img src={Logo} alt="Logo" />
           <div className="perfil">
@@ -99,7 +131,7 @@ const Dar = () => {
                 onSwipe={(dir) => swiped(dir, user._id)}
                 onCardLeftScreen={() => outOfFrame(user.nome)}
               >
-                <div className="card">
+                <div className="card" style={{ zIndex: 3 }}>
                   <img
                     src={user.profileImageUrl || "https://placehold.co/600x400"}
                     alt="Perfil"
@@ -111,6 +143,7 @@ const Dar = () => {
                       borderRadius: 10,
                       opacity: 0,
                       transition: "opacity 0.5s ease",
+                      zIndex: 5,
                     }}
                   />
                   <h3>{user.nome}</h3>
@@ -126,10 +159,21 @@ const Dar = () => {
                 </div>
               </TinderCard>
             ))}
+          <div className="ohno-container">
+            <p>Oh não! Parece que os perfis acabaram...</p>
+            <button
+              className="btn-opcao-profile"
+              value="Receber"
+              onClick={() => backHome()}
+              style={{ backgroundImage: "../assets/home.svg" }}
+            >
+              Voltar para a Home
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Dar;
+export default Receber;
