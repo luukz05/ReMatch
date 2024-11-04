@@ -135,6 +135,7 @@ const RegisterModal = ({ setShowModal }) => {
         <input
           type="text"
           placeholder="Descrição"
+          required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           maxLength={150}
@@ -147,6 +148,7 @@ const RegisterModal = ({ setShowModal }) => {
             id="option1"
             name="options"
             value="Dar"
+            required
           />
           <label htmlFor="option1">Dar Materiais</label>
           <input
@@ -162,6 +164,7 @@ const RegisterModal = ({ setShowModal }) => {
         <select
           value={companyInterest}
           onChange={(e) => setCompanyInterest(e.target.value)}
+          required
         >
           <option value="">Selecione um resíduo de interesse</option>
           <option value="Eletrônico">Eletrônico</option>

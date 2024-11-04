@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Logo from "../assets/logo.png";
+import MatchInfo from "../components/MatchInfo";
 
 const PH1 = () => {
   const { id } = useParams(); // Obtém o ID da URL
@@ -72,7 +73,12 @@ const PH1 = () => {
   }
 
   return (
-    <div className="container-profile">
+    <div>
+      <div className="match-section">
+        <h2>Seu Match</h2>
+        <MatchInfo userId={user._id} />{" "}
+        {/* Passando o ID do usuário para buscar os matches */}
+      </div>
       <div className="nav-menu">
         <img src={Logo} alt="Logo" />
         <div className="perfil">
@@ -93,25 +99,26 @@ const PH1 = () => {
           />
         </div>
       </div>
-
-      <div className="divo">
-        <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>
-        <p style={{ fontSize: "30px" }}>O que está procurando hoje?</p>
-        <div className="div-buttons-profile">
-          <button
-            className="btn-opcao-profile"
-            value="Dar"
-            onClick={() => teste("Dar")}
-          >
-            Dar algo
-          </button>
-          <button
-            className="btn-opcao-profile"
-            value="Receber"
-            onClick={() => teste("Receber")}
-          >
-            Receber algo
-          </button>
+      <div className="container-profile">
+        <div className="divo">
+          <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>
+          <p style={{ fontSize: "30px" }}>O que está procurando hoje?</p>
+          <div className="div-buttons-profile">
+            <button
+              className="btn-opcao-profile"
+              value="Dar"
+              onClick={() => teste("Dar")}
+            >
+              Dar algo
+            </button>
+            <button
+              className="btn-opcao-profile"
+              value="Receber"
+              onClick={() => teste("Receber")}
+            >
+              Receber algo
+            </button>
+          </div>
         </div>
       </div>
     </div>

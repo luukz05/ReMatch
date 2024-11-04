@@ -7,7 +7,7 @@ const LoginModal = ({ setShowModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [cookies, setCookie] = useCookies(["userId"]); // Hook para gerenciar cookies
+  const [cookies, setCookie] = useCookies(["userId", "token"]); // Adicionando o token
   let navigate = useNavigate();
 
   const handleClick = () => {
@@ -25,7 +25,9 @@ const LoginModal = ({ setShowModal }) => {
       });
 
       if (response.status === 200) {
+        // Armazenar userId e token nos cookies
         setCookie("userId", response.data.userId, { path: "/", maxAge: 3600 });
+        setCookie("token", response.data.token, { path: "/", maxAge: 3600 }); // Armazenar o token
         setShowModal(false);
         navigate(`/users/${response.data.userId}`); // Redireciona para a nova URL
         window.location.reload();

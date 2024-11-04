@@ -1,19 +1,18 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto"); // Importar o módulo crypto
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const base64url = require("base64url"); // Importar a biblioteca base64url
+const base64url = require("base64url");
+const jwt = require("jsonwebtoken");
 
 // Configuração básica
-
 const corsOptions = {
   origin: "http://localhost:3000", // Permite apenas esta origem
   credentials: true, // Permite que cookies e credenciais sejam enviados
 };
 const app = express();
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 // Conectar ao MongoDB
@@ -41,10 +40,10 @@ const UserSchema = new mongoose.Schema(
     area: { type: String },
     interesse: { type: String },
     descricao: { type: String },
-    estado: { type: String }, // Campo para estado
-    cidade: { type: String }, // Campo para cidade
+    estado: { type: String },
+    cidade: { type: String },
     matches: { type: Array, default: [] },
-    action: { type: String, default: "" }, // Agora é uma string em vez de um array
+    action: { type: String, default: "" },
   },
   { collection: "users" }
 );
@@ -55,32 +54,67 @@ const User = mongoose.model("user", UserSchema);
 // Rota para obter todos os perfis de usuários
 app.get("/users/:id", async (req, res) => {
   try {
-    const userId = req.params.id; // Obtém o ID da URL
-    const user = await User.findById(userId); // Busca o usuário pelo ID
+    const userId = req.params.id;
+    const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: "Usuário não encontrado." });
     }
 
-    res.json(user); // Retorna os dados do usuário
+    res.json(user);
   } catch (error) {
     console.error("Erro ao buscar usuário:", error);
     res.status(500).json({ error: "Erro ao buscar usuário." });
   }
 });
 
+// Rota para obter todos os usuários
 app.get("/users", async (req, res) => {
   try {
     const users = await User.find({});
     res.json(users);
   } catch (error) {
-    console.error("Erro ao buscar usuários com ação 'Dar':", error);
+    console.error("Erro ao buscar usuários:", error);
     res.status(500).json({ error: "Erro ao buscar usuários." });
+  }
+});
+
+app.post("/swipe", async (req, res) => {
+  const { userId, likedUserId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    const likedUser = await User.findById(likedUserId);
+
+    if (!user || !likedUser) {
+      return res.status(404).json({ error: "Usuário(s) não encontrado(s)." });
+    }
+
+    // Adiciona o likedUserId à lista de matches do user, se ainda não estiver lá
+    if (!user.matches.includes(likedUserId)) {
+      user.matches.push(likedUserId);
+      await user.save();
+    }
+
+    // Verifica se o likedUser também deu swipe em userId
+    if (likedUser.matches.includes(userId)) {
+      // Adiciona o userId à lista de matches do likedUser
+      if (!likedUser.matches.includes(userId)) {
+        likedUser.matches.push(userId);
+        await likedUser.save();
+      }
+
+      return res.json({ match: true, message: "É um match!" });
+    }
+
+    res.json({ match: false, message: "Swipe registrado com sucesso." });
+  } catch (error) {
+    console.error("Erro ao processar o swipe:", error);
+    res.status(500).json({ error: "Erro ao processar o swipe." });
   }
 });
 
 // Rota para registrar usuário
 app.post("/register", async (req, res) => {
-  console.log(req.body); // Adicione esta linha para depuração
   const {
     nome,
     email,
@@ -90,7 +124,6 @@ app.post("/register", async (req, res) => {
     descricao,
     estado,
     cidade,
-    matches,
     action,
   } = req.body;
 
@@ -110,7 +143,6 @@ app.post("/register", async (req, res) => {
       descricao,
       estado,
       cidade,
-      matches,
       action,
     });
 
@@ -142,6 +174,7 @@ const createJWT = (payload, secret) => {
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 };
 
+// Rota para fazer login
 app.post("/login", async (req, res) => {
   const { email, senha } = req.body;
 
@@ -156,11 +189,11 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Senha incorreta." });
     }
 
-    // Usar a função createJWT para gerar o token
     const token = createJWT(
       { userId: user._id },
       process.env.JWT_SECRET || "sua_chave_secreta_aqui"
-    ); // Use uma chave secreta segura aqui
+    );
+
     res.json({ userId: user._id, token });
   } catch (error) {
     console.error("Erro ao fazer login:", error);

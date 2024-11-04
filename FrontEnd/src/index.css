@@ -6,7 +6,11 @@ body {
   padding: 0;
   text-align: center;
   overflow: hidden;
-  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: text;
 }
 
 h2 {
@@ -167,6 +171,7 @@ nav .logo-container .logo {
 /*-------- Dashboard  --------*/
 .dashboard {
   display: flex;
+
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -180,6 +185,7 @@ nav .logo-container .logo {
   align-items: center;
   justify-content: center;
   z-index: 10;
+  margin-top: 5%;
 }
 .dashboard .swipe-container {
   width: 50%;
@@ -352,10 +358,11 @@ nav .logo-container .logo {
   background-color: #eee;
 }
 .btn-opcao-profile:hover {
-  background-color: #43885a;
+  background-color: #5c8669;
   transition: 1s;
   cursor: pointer;
   transform: scale(1.1);
+  color: #eee;
 }
 .container-profile {
   width: 100%;
@@ -365,6 +372,9 @@ nav .logo-container .logo {
   background-repeat: no-repeat;
   background-image: url("../src/assets/OIG4.jpg");
   background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: start;
 }
 .divo {
   font-display: flex;
@@ -372,10 +382,9 @@ nav .logo-container .logo {
   align-items: center;
   flex-direction: column;
   background-color: #61806f93;
-  position: absolute;
-  left: 34%;
-  top: 23.5%;
   padding: 100px;
+  width: 30%;
   border-radius: 25px;
   backdrop-filter: blur(5px);
+  margin-top: 5%;
 }
