@@ -11,10 +11,14 @@ const PH1 = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(""); // Estado para mensagem de erro
   const [cookies] = useCookies(["userId"]);
+  const [error, setError] = useState(null);
 
   // Função para navegar para outra página
   function teste(value) {
     navigate(`/${value}`);
+  }
+  function backHome() {
+    navigate(`/`);
   }
 
   // useEffect para buscar o usuário
@@ -74,11 +78,6 @@ const PH1 = () => {
 
   return (
     <div>
-      <div className="match-section">
-        <h2>Seu Match</h2>
-        <MatchInfo userId={user._id} />{" "}
-        {/* Passando o ID do usuário para buscar os matches */}
-      </div>
       <div className="nav-menu">
         <img src={Logo} alt="Logo" />
         <div className="perfil">
@@ -97,27 +96,59 @@ const PH1 = () => {
             className="img-perfil"
             alt="Perfil"
           />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-log-out"
+            onClick={backHome}
+            style={{ cursor: "pointer" }}
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
         </div>
       </div>
-      <div className="container-profile">
-        <div className="divo">
-          <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>
-          <p style={{ fontSize: "30px" }}>O que está procurando hoje?</p>
-          <div className="div-buttons-profile">
-            <button
-              className="btn-opcao-profile"
-              value="Dar"
-              onClick={() => teste("Dar")}
-            >
-              Dar algo
-            </button>
-            <button
-              className="btn-opcao-profile"
-              value="Receber"
-              onClick={() => teste("Receber")}
-            >
-              Receber algo
-            </button>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div
+          className="match-section"
+          style={{
+            zIndex: 50,
+            backgroundColor: "#eee",
+            height: "15000px",
+            padding: 35,
+            overflow: "auto",
+          }}
+        >
+          <MatchInfo userId={user._id} />{" "}
+        </div>
+        <div className="container-profile">
+          <div className="divo">
+            <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>
+            <p style={{ fontSize: "30px" }}>O que está procurando hoje?</p>
+            <div className="div-buttons-profile">
+              <button
+                className="btn-opcao-profile"
+                value="Dar"
+                onClick={() => teste("Dar")}
+              >
+                Dar algo
+              </button>
+              <button
+                className="btn-opcao-profile"
+                value="Receber"
+                onClick={() => teste("Receber")}
+              >
+                Receber algo
+              </button>
+            </div>
           </div>
         </div>
       </div>

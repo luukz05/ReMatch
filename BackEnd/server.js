@@ -42,6 +42,7 @@ const UserSchema = new mongoose.Schema(
     descricao: { type: String },
     estado: { type: String },
     cidade: { type: String },
+    likes: { type: Array, default: [] },
     matches: { type: Array, default: [] },
     action: { type: String, default: "" },
   },
@@ -89,24 +90,29 @@ app.post("/swipe", async (req, res) => {
       return res.status(404).json({ error: "Usuário(s) não encontrado(s)." });
     }
 
-    // Adiciona o likedUserId à lista de matches do user, se ainda não estiver lá
-    if (!user.matches.includes(likedUserId)) {
-      user.matches.push(likedUserId);
+    // Adiciona o likedUserId à lista de likes do user, se ainda não estiver lá
+    if (!user.likes.includes(likedUserId)) {
+      user.likes.push(likedUserId);
       await user.save();
     }
 
-    // Verifica se o likedUser também deu swipe em userId
-    if (likedUser.matches.includes(userId)) {
-      // Adiciona o userId à lista de matches do likedUser
+    // Verifica se há reciprocidade de like para criar o match
+    if (likedUser.likes.includes(userId)) {
+      // Adiciona ambos os IDs nas listas de matches
+      if (!user.matches.includes(likedUserId)) {
+        user.matches.push(likedUserId);
+      }
       if (!likedUser.matches.includes(userId)) {
         likedUser.matches.push(userId);
-        await likedUser.save();
       }
+      // Salva as atualizações
+      await user.save();
+      await likedUser.save();
 
-      return res.json({ match: true, message: "É um match!" });
+      return res.json({ likes: true, message: "É um match!" });
     }
 
-    res.json({ match: false, message: "Swipe registrado com sucesso." });
+    res.json({ likes: false, message: "Swipe registrado com sucesso." });
   } catch (error) {
     console.error("Erro ao processar o swipe:", error);
     res.status(500).json({ error: "Erro ao processar o swipe." });
