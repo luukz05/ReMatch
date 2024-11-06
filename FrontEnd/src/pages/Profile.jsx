@@ -116,19 +116,8 @@ const PH1 = () => {
           </svg>
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div
-          className="match-section"
-          style={{
-            zIndex: 50,
-            backgroundColor: "#eee",
-            height: "15000px",
-            padding: 35,
-            overflow: "auto",
-          }}
-        >
-          <MatchInfo userId={user._id} />{" "}
-        </div>
+      <div className="master-container">
+        <MatchInfo userId={user._id} />{" "}
         <div className="container-profile">
           <div className="divo">
             <h1 style={{ fontSize: "70px" }}>Olá {user.nome}!</h1>

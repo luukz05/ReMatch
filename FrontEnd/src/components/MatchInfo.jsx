@@ -56,7 +56,12 @@ const MatchInfo = ({ userId }) => {
 
   if (loading) return <p>Carregando matches...</p>;
   if (errorMessage) return <p style={{ color: "red" }}>{errorMessage}</p>;
-  if (!matches.length) return <p>Nenhum match encontrado.</p>;
+  if (!matches.length)
+    return (
+      <p style={{ fontWeight: "bolder", marginTop: 350 }}>
+        Nenhum match encontrado.
+      </p>
+    );
 
   return (
     <div className="matches-container">
