@@ -202,6 +202,45 @@ const createJWT = (payload, secret) => {
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 };
 
+app.post("/swipe", async (req, res) => {
+  const { userId, likedUserId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    const likedUser = await User.findById(likedUserId);
+
+    if (!user || !likedUser) {
+      return res.status(404).json({ error: "Usuário(s) não encontrado(s)." });
+    }
+
+    // Adiciona o likedUserId à lista de likes do user, se ainda não estiver lá
+    if (!user.likes.includes(likedUserId)) {
+      user.likes.push(likedUserId);
+      await user.save();
+    }
+    if (likedUser.likes.includes(userId)) {
+      // Adiciona ambos os IDs nas listas de matches
+      if (!user.matches.includes(likedUserId)) {
+        user.matches.push(likedUserId);
+      }
+      if (!likedUser.matches.includes(userId)) {
+        likedUser.matches.push(userId);
+        await likedUser.save();
+      }
+      // Salva as atualizações
+      await user.save();
+      await likedUser.save();
+
+      return res.json({ match: true, message: "É um match!" });
+    }
+
+    res.json({ match: false, message: "Swipe registrado com sucesso." });
+  } catch (error) {
+    console.error("Erro ao processar o swipe:", error);
+    res.status(500).json({ error: "Erro ao processar o swipe." });
+  }
+});
+
 // Rota para fazer login
 app.post("/login", async (req, res) => {
   const { email, senha } = req.body;
