@@ -238,73 +238,6 @@ nav .logo-container .logo {
   z-index: -1; /* Coloque atrás dos outros elementos */
 }
 
-/*-------- Chat Container --------*/
-.chat-container {
-  background-color: rgb(255, 255, 255);
-  box-shadow:
-    rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  width: 30%;
-  text-align: left;
-  z-index: 1;
-}
-
-.chat-container .chat-container-header {
-  background: linear-gradient(45deg, rgb(254, 48, 114), rgb(255, 89, 64));
-  height: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chat-container .option {
-  border: none;
-  background-color: rgb(255, 255, 255);
-  border-bottom: solid 4px rgb(243, 33, 33);
-  font-size: 20px;
-  margin: 2px;
-  padding: 10px;
-}
-
-.chat-container .option:disabled {
-  border-bottom: solid 4px rgb(187, 187, 187);
-}
-
-.chat-container .profile,
-.chat-container .log-out-icon {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  color: rgb(255, 255, 255);
-}
-
-.img-container {
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  overflow: hidden;
-  margin: 10px;
-}
-
-.img-container img {
-  width: 100%;
-}
-
-/*-------- Chat Display --------*/
-.chat-display,
-.matches-display {
-  padding: 20px;
-  height: 60vh;
-  overflow-y: scroll;
-}
-
-/*-------- Chat Input --------*/
-.chat-input {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
 /* PG1 */
 .nav-menu {
   display: flex;
@@ -324,6 +257,11 @@ nav .logo-container .logo {
 .perfil img {
   height: auto;
   width: 45px;
+  border-radius: 100%;
+}
+.img-perfil-chat {
+  height: auto;
+  width: 75px;
   border-radius: 100%;
 }
 .perfil {
@@ -349,6 +287,22 @@ nav .logo-container .logo {
   align-items: center;
   gap: 10px;
 }
+.btn-chat {
+  padding: 15px;
+  margin: 8px;
+  font-size: 12px;
+  width: 100x;
+  border-radius: 22px;
+  transition: 1s;
+  background-color: #eee;
+}
+.btn-chat:hover {
+  background-color: #5c8669;
+  transition: 1s;
+  cursor: pointer;
+  transform: scale(1.1);
+  color: #eee;
+}
 .btn-opcao-profile {
   padding: 15px;
   margin: 8px;
@@ -357,6 +311,17 @@ nav .logo-container .logo {
   border-radius: 22px;
   transition: 1s;
   background-color: #eee;
+}
+.btn-input {
+  padding: 15px;
+  font-size: 17px;
+  width: 200px;
+  border-radius: 0 22px 22px 0;
+  transition: 1s;
+  background-color: #5d9980;
+  height: 53px;
+  border: 3px;
+  color: #eee;
 }
 .btn-opcao-profile:hover {
   background-color: #5c8669;
@@ -397,7 +362,7 @@ nav .logo-container .logo {
 .matches-container {
   background-color: #61806f93;
   backdrop-filter: blur(5px);
-  height: 85vh; /* Adjust to your preferred max height */
+  height: 100vh; /* Adjust to your preferred max height */
   max-height: 100%;
   width: 300px;
   padding: 15px;
@@ -427,4 +392,64 @@ nav .logo-container .logo {
   border-radius: 100%;
   height: 85px;
   width: 85px;
+}
+/* CHAT */
+.chat-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #61806f93;
+  padding: 100px;
+  width: 30%;
+  border-radius: 25px;
+  backdrop-filter: blur(5px);
+  margin-top: 3%;
+  margin-left: 29.5%;
+  color: #eee;
+  height: 475px;
+  max-width: 800px;
+}
+.back-chat {
+  height: 100vh;
+  background-image: url("https://preview.redd.it/bxnemloow4781.jpg?auto=webp&s=4d8daf38d1d7caf73c96008d067b23f7fa3f74d7");
+}
+.input-text-chat {
+  padding: 15px;
+  font-size: 17px;
+  width: 500px;
+  border-radius: 22px;
+  transition: 1s;
+  height: 17pt;
+  background-color: #eeeeee;
+  border-radius: 22px 0 0 22px;
+}
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  row-gap: 0;
+  margin-top: 15px;
+}
+.messages {
+  text-align: left;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+}
+.liked-user-info {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  align-items: center;
+}
+.message {
+  margin-top: 5px;
+}
+.liked-user-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }

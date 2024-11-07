@@ -1,9 +1,9 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const base64url = require("base64url");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 // Configuração básica
@@ -49,10 +49,27 @@ const UserSchema = new mongoose.Schema(
   { collection: "users" }
 );
 
-// Criar o modelo de usuário
+const MessageSchema = new mongoose.Schema(
+  {
+    senderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    content: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
+  },
+  { collection: "messages" }
+);
+
+const Message = mongoose.model("message", MessageSchema);
 const User = mongoose.model("user", UserSchema);
 
-// Rota para obter todos os perfis de usuários
 app.get("/users/:id", async (req, res) => {
   try {
     const userId = req.params.id;
@@ -79,43 +96,48 @@ app.get("/users", async (req, res) => {
   }
 });
 
-app.post("/swipe", async (req, res) => {
-  const { userId, likedUserId } = req.body;
+// Rota para enviar uma mensagem
+app.post("/messages/:userId/:likedUserId", async (req, res) => {
+  const { userId, likedUserId } = req.params;
+  const { content } = req.body;
+
+  if (!content || content.trim() === "") {
+    return res
+      .status(400)
+      .json({ error: "Conteúdo da mensagem não pode ser vazio." });
+  }
 
   try {
-    const user = await User.findById(userId);
-    const likedUser = await User.findById(likedUserId);
-
-    if (!user || !likedUser) {
-      return res.status(404).json({ error: "Usuário(s) não encontrado(s)." });
-    }
-
-    // Adiciona o likedUserId à lista de likes do user, se ainda não estiver lá
-    if (!user.likes.includes(likedUserId)) {
-      user.likes.push(likedUserId);
-      await user.save();
-    }
-
-    // Verifica se há reciprocidade de like para criar o match
-    if (likedUser.likes.includes(userId)) {
-      // Adiciona ambos os IDs nas listas de matches
-      if (!user.matches.includes(likedUserId)) {
-        user.matches.push(likedUserId);
-      }
-      if (!likedUser.matches.includes(userId)) {
-        likedUser.matches.push(userId);
-      }
-      // Salva as atualizações
-      await user.save();
-      await likedUser.save();
-
-      return res.json({ likes: true, message: "É um match!" });
-    }
-
-    res.json({ likes: false, message: "Swipe registrado com sucesso." });
+    const message = new Message({
+      senderId: userId,
+      receiverId: likedUserId,
+      content,
+    });
+    await message.save();
+    res
+      .status(201)
+      .json({ message: "Mensagem enviada com sucesso!", data: message });
   } catch (error) {
-    console.error("Erro ao processar o swipe:", error);
-    res.status(500).json({ error: "Erro ao processar o swipe." });
+    console.error("Erro ao enviar mensagem:", error);
+    res.status(500).json({ error: "Erro ao enviar mensagem." });
+  }
+});
+
+app.get("/messages/:userId/:likedUserId", async (req, res) => {
+  const { userId, likedUserId } = req.params;
+
+  try {
+    const messages = await Message.find({
+      $or: [
+        { senderId: userId, receiverId: likedUserId },
+        { senderId: likedUserId, receiverId: userId },
+      ],
+    }).sort({ timestamp: 1 });
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Erro ao buscar mensagens:", error);
+    res.status(500).json({ error: "Erro ao buscar mensagens." });
   }
 });
 

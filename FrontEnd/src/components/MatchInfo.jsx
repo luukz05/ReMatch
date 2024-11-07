@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Usando axios para requisições
 
-const MatchInfo = ({ userId }) => {
+const MatchInfo = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const userId = document.cookie.replace(
+    /(?:(?:^|.*;\s*)userId\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1",
+  ); // Pega o userId do cookie
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -11,34 +18,24 @@ const MatchInfo = ({ userId }) => {
       setErrorMessage("");
 
       try {
-        // Faz a requisição para obter o usuário
-        const response = await fetch(`http://localhost:5000/users/${userId}`, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
+        // Requisição para buscar os dados do usuário
+        const response = await axios.get(
+          `http://localhost:5000/users/${userId}`,
+          {
+            withCredentials: true,
           },
-        });
+        );
 
-        if (!response.ok) throw new Error("Network response was not ok");
-
-        const userData = await response.json();
-        const matchPromises = userData.matches.map(async (matchId) => {
-          const matchResponse = await fetch(
+        const matchPromises = response.data.matches.map(async (matchId) => {
+          const matchResponse = await axios.get(
             `http://localhost:5000/users/${matchId}`,
             {
-              method: "GET",
-              credentials: "include",
-              headers: {
-                "Content-Type": "application/json",
-              },
+              withCredentials: true,
             },
           );
-          if (!matchResponse.ok) throw new Error("Failed to fetch match");
-          return matchResponse.json(); // Retorna os dados do match
+          return matchResponse.data;
         });
 
-        // Espera todas as promessas serem resolvidas
         const matchUsers = await Promise.all(matchPromises);
         setMatches(matchUsers);
       } catch (error) {
@@ -53,6 +50,10 @@ const MatchInfo = ({ userId }) => {
       fetchMatches();
     }
   }, [userId]);
+
+  const handleChatClick = (likedUserId) => {
+    navigate(`/messages/${userId}/${likedUserId}`);
+  };
 
   if (loading) return <p>Carregando matches...</p>;
   if (errorMessage) return <p style={{ color: "red" }}>{errorMessage}</p>;
@@ -77,6 +78,12 @@ const MatchInfo = ({ userId }) => {
               <h3>{match.nome}</h3>
               <p>Interesse: {match.interesse}</p>
               <p>Ação: {match.action}</p>
+              <button
+                className="btn-chat"
+                onClick={() => handleChatClick(match._id)}
+              >
+                Abrir Chat
+              </button>
             </div>
           </div>
         ))}
